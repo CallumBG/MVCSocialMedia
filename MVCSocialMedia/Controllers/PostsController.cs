@@ -90,19 +90,6 @@ namespace MVCSocialMedia.Controllers
 
             if (ModelState.IsValid)
             {
-                /*HttpPostedFileBase poImgFile = Request.Files[initalPostImage];
-
-                //Process image
-                using (var binary = new BinaryReader(poImgFile.InputStream))
-                {
-                    imageData = binary.ReadBytes(poImgFile.ContentLength);
-                }
-
-                post.PostImage = imageData;
-
-
-
-                */
 
                 if(file != null)
                 {
