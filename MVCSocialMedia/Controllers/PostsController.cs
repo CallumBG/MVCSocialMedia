@@ -15,13 +15,12 @@ namespace MVCSocialMedia.Controllers
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        readonly IBufferedFileUploadService _bufferedFileUploadService;
 
-        public PostsController(ApplicationDbContext context, IBufferedFileUploadService bufferedFileUploadService)
+        public PostsController(ApplicationDbContext context)
         {
             _context = context;
-            _bufferedFileUploadService = bufferedFileUploadService;
         }
+
 
         // GET: Posts
         public async Task<IActionResult> Index()
