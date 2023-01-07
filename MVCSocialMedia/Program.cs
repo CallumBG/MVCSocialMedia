@@ -22,6 +22,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 }).AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddTransient<IBufferedFileUploadService, BufferedFileUploadService>();
+
 builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);

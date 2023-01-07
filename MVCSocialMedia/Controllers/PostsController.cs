@@ -8,16 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVCSocialMedia.Data;
 using MVCSocialMedia.Models;
+using MVCSocialMedia.Services;
 
 namespace MVCSocialMedia.Controllers
 {
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        readonly IBufferedFileUploadService _bufferedFileUploadService;
 
-        public PostsController(ApplicationDbContext context)
+        public PostsController(ApplicationDbContext context, IBufferedFileUploadService bufferedFileUploadService)
         {
             _context = context;
+            _bufferedFileUploadService = bufferedFileUploadService;
         }
 
         // GET: Posts
@@ -80,15 +83,53 @@ namespace MVCSocialMedia.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Title,OpinionText")] Post post)
+        public async Task<IActionResult> Create([Bind("Id,Username,Title,OpinionText, PostImageAsByteArray")] Post post, IFormFile file)
         {
+            //Set Username to currently logged in user
             post.Username = User.Identity.Name;
+
 
             if (ModelState.IsValid)
             {
+                /*HttpPostedFileBase poImgFile = Request.Files[initalPostImage];
+
+                //Process image
+                using (var binary = new BinaryReader(poImgFile.InputStream))
+                {
+                    imageData = binary.ReadBytes(poImgFile.ContentLength);
+                }
+
+                post.PostImage = imageData;
+
+
+
+                */
+
+                if(file != null)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(memoryStream);
+
+                        if (memoryStream.Length < 2097152)
+                        {
+                            post.PostImageAsByteArray = memoryStream.ToArray();
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("File", "The file is too large.");
+                        }
+                    }
+                   
+                }
+
+
+
+
                 _context.Add(post);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+
             }
             return View(post);
         }
