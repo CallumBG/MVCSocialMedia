@@ -5,7 +5,6 @@
 }
 
 <h1>Details</h1>
-
 <div>
     <h4>Post</h4>
     <hr />
@@ -22,12 +21,19 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Username)
         </dd>
+        <dt class= "col-sm-2">
+            @Html.DisplayNameFor(model => model.PostImageAsByteArray)
+        </dt>
+        <dd class="col-sm-10">
+            <img src="data:image;base64,@System.Convert.ToBase64String(Model.PostImageAsByteArray)" width="200" height="200" />
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.OpinionText)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.OpinionText)
         </dd>
+
     </dl>
 </div>
 <div>
