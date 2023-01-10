@@ -4,46 +4,40 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OpinionText)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-            </td>
-            @{
-                    if(User.Identity.Name == item.Username)
-                    {
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                        
-                    }
+    <div class="container bg-white m-5" >
+    <div>
+        <div>
+            <blockquote class="blockquote">
+                    <h2 class="p-4">@item.Title &nbsp; &nbsp; &nbsp; &nbsp; <h2/>
+
+                <footer class="blockquote-footer text-left">Posted by: @item.Username</footer>
+            </blockquote>
+                @if (User.Identity.Name == item.Username)
+                {
+                    <h4><a asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;<a asp-action="Delete" asp-route-id="@item.Id">Delete</a></h4>
+                }
+        </div>
+    </div>
+    <hr />
+    <div class="container">
+        <div>
+            @if (item.PostImageAsByteArray != null)
+            {
+                <div>
+                    <div class="bg-black">
+                        <img src="data:image;base64,@System.Convert.ToBase64String(item.PostImageAsByteArray)" class="rounded mx-auto d-block" style="height: 500px"/>
+                    </div>
+                    <hr />
+                </div>
             }
-        </tr>
-}
-    </tbody>
-</table>
+            <div class="p-4 mb-auto">
+                <h2>@item.OpinionText</h2>
+            </div>
+        </div>
+    </div>
+    </div>
+    }

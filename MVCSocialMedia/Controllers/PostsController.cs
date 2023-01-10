@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using MVCSocialMedia.Data;
 using MVCSocialMedia.Models;
 using MVCSocialMedia.Services;
@@ -58,7 +59,7 @@ namespace MVCSocialMedia.Controllers
         public async Task<IActionResult> ViewUserPosts()
         {
             return _context.Posts != null ?
-                        View(await _context.Posts.ToListAsync()) :
+                        View("Index", await _context.Posts.Where(x => x.Username.Equals(User.Identity.Name)).ToListAsync()) :
                         Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
         }
 
@@ -82,42 +83,40 @@ namespace MVCSocialMedia.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Username,Title,OpinionText, PostImageAsByteArray")] Post post, IFormFile file)
+        public async Task<IActionResult> Create( CreatePostRequest request, IFormFile? file)
         {
-            //Set Username to currently logged in user
-            post.Username = User.Identity.Name;
 
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-
-                if(file != null)
-                {
-                    using (var memoryStream = new MemoryStream())
-                    {
-                        await file.CopyToAsync(memoryStream);
-
-                        if (memoryStream.Length < 2097152)
-                        {
-                            post.PostImageAsByteArray = memoryStream.ToArray();
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("File", "The file is too large.");
-                        }
-                    }
-                   
-                }
-
-
-
-
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-
+                return View();
             }
-            return View(post);
+            byte[] PostImageAsByteArray = null;
+            if (file != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memoryStream);
+
+                    if (memoryStream.Length < 4097152)
+                    {
+                        PostImageAsByteArray = memoryStream.ToArray();
+                    }
+                    else
+                    {
+                        //TODO Add warning on form that file is too large
+                    }
+                }
+            }
+
+            request.Username = User.Identity.Name;
+
+            Post newPost = new Post(request.Title, request.Username, request.OpinionText, PostImageAsByteArray);
+
+           
+
+            _context.Add(newPost);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Posts/Edit/5

@@ -4,39 +4,40 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
 <div>
-    <h4>Post</h4>
+    <div class="container">
+        <div>
+            <blockquote class="blockquote">
+                <h2 class="p-4">@Html.DisplayFor(model => model.Title)</h2>
+                <footer class="blockquote-footer text-left">Posted by: @Html.DisplayFor(model => model.Username)</footer>
+            </blockquote>
+        </div>
+    </div>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Username)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Username)
-        </dd>
-        <dt class= "col-sm-2">
-            @Html.DisplayNameFor(model => model.PostImageAsByteArray)
-        </dt>
-        <dd class="col-sm-10">
-            <img src="data:image;base64,@System.Convert.ToBase64String(Model.PostImageAsByteArray)" width="200" height="200" />
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OpinionText)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OpinionText)
-        </dd>
-
-    </dl>
+    <div class="container">
+            <div>
+                    @if(Model.PostImageAsByteArray != null)
+                    {
+                        <div>
+                            <div class="bg-light">
+                                <img src="data:image;base64,@System.Convert.ToBase64String(Model.PostImageAsByteArray)" class="rounded mx-auto d-block"/>
+                            </div>
+                            <hr />
+                        </div>
+                    }
+                <div class="bg-light p-4">
+                    @Html.DisplayFor(model => model.OpinionText)
+                </div>
+            </div>
+    </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
