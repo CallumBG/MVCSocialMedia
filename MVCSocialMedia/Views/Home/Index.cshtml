@@ -2,52 +2,24 @@
     ViewData["Title"] = "Home Page";
 }
 
-@model IEnumerable<MVCSocialMedia.Models.Post>
 
-<div class="text-center">
-    <h4>The Latest Posts!<h4>
+<p>
+    <a asp-action="Create" asp-controller="Posts" class="w-100 btn btn-info fs-4" role="button">Create a new post here!</a>
+</p>
+<div>
+    <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+            <p>Here you can post your thoughts on any topics you like, try to include pictures to enhance your post.</p>
+            <p>Want To Get Involved?</p>
+            <p>Simply sign up and then you are free to post anything you like!</p>
+            <a asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" class="w-20 btn btn-info fs-4" role="button">Sign Up Here</a>
+            <hr />
+            <p>Already got an account?</p>
+            <p>Great get started with a new post now!</p>
+            <a asp-action="Create" asp-controller="Posts" class="w-20 btn btn-info fs-4" role="button">Create a post here</a>
+        </div>
+    </div>
 </div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Username)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OpinionText)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Username)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OpinionText)
-                </td>
-                @{
-                    if (User.Identity.Name == item.Username)
-                    {
-                        <td>
-                            <a asp-controller="Posts" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-controller="Posts" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-controller="Posts" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-
-                    }
-                }
-            </tr>
-        }
-    </tbody>
-</table>
 

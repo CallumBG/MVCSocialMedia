@@ -4,36 +4,42 @@
     ViewData["Title"] = "Details";
 }
 
-<div>
-    <div class="container">
-        <div>
+<div class="container bg-white">
+    <div class="card mb-5 mt-5">
+        <div class="card-header m-4">
             <blockquote class="blockquote">
-                <h2 class="p-4">@Html.DisplayFor(model => model.Title)</h2>
-                <footer class="blockquote-footer text-left">Posted by: @Html.DisplayFor(model => model.Username)</footer>
+                <h2 class="p-4">
+                    @Model.Title &nbsp; &nbsp; &nbsp; &nbsp; <h2 />
+
+                    <footer class="blockquote-footer text-left">Posted by: @Model.Username</footer>
             </blockquote>
         </div>
-    </div>
-    <hr />
-    <div class="container">
+        <hr />
+        <div class="card-body">
             <div>
-                    @if(Model.PostImageAsByteArray != null)
-                    {
-                        <div>
-                            <div class="bg-light">
-                                <img src="data:image;base64,@System.Convert.ToBase64String(Model.PostImageAsByteArray)" class="rounded mx-auto d-block"/>
-                            </div>
-                            <hr />
+                @if (Model.PostImageAsByteArray != null)
+                {
+                    <div>
+                        <div class="bg-black">
+                            <img src="data:image;base64,@System.Convert.ToBase64String(Model.PostImageAsByteArray)" class="rounded mx-auto d-block" style="height: 500px" />
                         </div>
-                    }
-                <div class="bg-light p-4">
-                    @Html.DisplayFor(model => model.OpinionText)
+                        <hr />
+                    </div>
+                }
+                <div class="p-4 mb-auto bg-light">
+                    <h2>@Model.OpinionText</h2>
                 </div>
             </div>
+        </div>
+        @if ((User.Identity.Name == Model.Username) || User.IsInRole("Admin"))
+        {
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                <a asp-action="Index" asp-controller="Posts" class="w-20 btn btn-info fs-6" role="button">Back To All Posts</a>
+            </form>
+        }
     </div>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

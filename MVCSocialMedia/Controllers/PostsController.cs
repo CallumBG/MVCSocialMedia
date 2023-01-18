@@ -31,7 +31,17 @@ namespace MVCSocialMedia.Controllers
                           Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
         }
 
+        // GET: Posts
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> AllPostsBaseView()
+        {
+            return _context.Posts != null ?
+                        View(await _context.Posts.OrderByDescending(x => x.Id).ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
+        }
+
         // GET: Posts/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Posts == null)
@@ -50,12 +60,14 @@ namespace MVCSocialMedia.Controllers
         }
 
         // GET: Posts/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
 
         //GET: Posts/ViewUserPosts
+        [Authorize]
         public async Task<IActionResult> ViewUserPosts()
         {
             return _context.Posts != null ?
@@ -142,17 +154,35 @@ namespace MVCSocialMedia.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Username,OpinionText")] Post post)
+        public async Task<IActionResult> Edit(CreatePostRequest request, IFormFile? file)
         {
-            post.Username = User.Identity.Name;
+            request.Username = User.Identity.Name;
 
-            if (id != post.Id)
-            {
-                return NotFound();
-            }
+            var post = await _context.Posts.FindAsync(request.Id);
 
             if (ModelState.IsValid)
             {
+                post.Title = request.Title;
+                post.OpinionText = request.OpinionText;
+
+                if (file != null)
+                {
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await file.CopyToAsync(memoryStream);
+
+                        if (memoryStream.Length < 4097152)
+                        {
+                            post.PostImageAsByteArray = memoryStream.ToArray();
+                        }
+                        else
+                        {
+                            //TODO Add warning on form that file is too large
+                        }
+                    }
+                }
+
                 try
                 {
                     _context.Update(post);

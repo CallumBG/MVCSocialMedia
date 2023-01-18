@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MVCSocialMedia.Data;
 using MVCSocialMedia.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using MVCSocialMedia.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,17 +13,24 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
     options.Tokens.ProviderMap.Add("CustomEmailConfirmation",
         new TokenProviderDescriptor(
-            typeof(CustomEmailConfirmationTokenProvider<IdentityUser>)));
+            typeof(CustomEmailConfirmationTokenProvider<ApplicationUser>)));
     options.Tokens.EmailConfirmationTokenProvider = "CustomEmailConfirmation";
-}).AddEntityFrameworkStores<ApplicationDbContext>();
+}).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<IdentityUser>>();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RequireAdministratorRole",
+         policy => policy.RequireRole("Administrator"));
+});
+
+builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<ApplicationUser>>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
