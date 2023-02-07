@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -16,19 +17,21 @@ namespace MVCSocialMedia.Controllers
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUploadedFileChecker _uploadedFileChecker;
 
-        public PostsController(ApplicationDbContext context)
+        public PostsController(ApplicationDbContext context, IUploadedFileChecker uploadedFileChecker)
         {
             _context = context;
+            _uploadedFileChecker = uploadedFileChecker;
         }
 
 
         // GET: Posts
         public async Task<IActionResult> Index()
         {
-              return _context.Posts != null ? 
-                          View(await _context.Posts.OrderByDescending(x => x.Id).ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
+            return _context.Posts != null ?
+                        View(await _context.Posts.OrderByDescending(x => x.Id).ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
         }
 
         // GET: Posts
@@ -61,7 +64,7 @@ namespace MVCSocialMedia.Controllers
 
         // GET: Posts/Create
         [Authorize]
-        public IActionResult Create()
+        public IActionResult Create(Moq.Mock<CreatePostRequest> mockCreatePostRequest, object value)
         {
             return View();
         }
@@ -76,10 +79,10 @@ namespace MVCSocialMedia.Controllers
         }
 
         //Post: Posts/ShowSearchResults
-        public async  Task<IActionResult> ShowSearchResults(string SearchPhrase)
+        public async Task<IActionResult> ShowSearchResults(string SearchPhrase)
         {
             return _context.Posts != null ?
-                          View("Index", await _context.Posts.Where( j => j.Title.Contains(SearchPhrase)).ToListAsync()) :
+                          View("Index", await _context.Posts.Where(j => j.Title.Contains(SearchPhrase)).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
         }
 
@@ -95,7 +98,7 @@ namespace MVCSocialMedia.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create( CreatePostRequest request, IFormFile? file)
+        public async Task<IActionResult> Create(CreatePostRequest request, IFormFile? file)
         {
 
             if (!ModelState.IsValid)
@@ -124,7 +127,7 @@ namespace MVCSocialMedia.Controllers
 
             Post newPost = new Post(request.Title, request.Username, request.OpinionText, PostImageAsByteArray);
 
-           
+
 
             _context.Add(newPost);
             await _context.SaveChangesAsync();
@@ -167,19 +170,17 @@ namespace MVCSocialMedia.Controllers
 
                 if (file != null)
                 {
+                    var memoryStream = new MemoryStream();
 
-                    using (var memoryStream = new MemoryStream())
+                    await file.CopyToAsync(memoryStream);
+
+                    if (_uploadedFileChecker.CheckFileSizeResult(file))
                     {
-                        await file.CopyToAsync(memoryStream);
-
-                        if (memoryStream.Length < 4097152)
-                        {
-                            post.PostImageAsByteArray = memoryStream.ToArray();
-                        }
-                        else
-                        {
-                            //TODO Add warning on form that file is too large
-                        }
+                        post.PostImageAsByteArray = memoryStream.ToArray();
+                    }
+                    else
+                    {
+                        //TODO Add warning on form that file is too large
                     }
                 }
 
@@ -238,14 +239,14 @@ namespace MVCSocialMedia.Controllers
             {
                 _context.Posts.Remove(post);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool PostExists(int id)
         {
-          return (_context.Posts?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Posts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -32,6 +32,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<ApplicationUser>>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.AddTransient<IUploadedFileChecker, IUploadedFileChecker>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 builder.Services.ConfigureApplicationCookie(o =>
@@ -70,3 +71,4 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
