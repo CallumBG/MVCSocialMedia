@@ -32,7 +32,8 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddTransient<CustomEmailConfirmationTokenProvider<ApplicationUser>>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
-builder.Services.AddTransient<IUploadedFileChecker, IUploadedFileChecker>();
+builder.Services.AddTransient<IUploadedFileChecker, UploadedFileChecker>();
+builder.Services.AddTransient<IPostRepository, PostRepository>();
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 builder.Services.ConfigureApplicationCookie(o =>

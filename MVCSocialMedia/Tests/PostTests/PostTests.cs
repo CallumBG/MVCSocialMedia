@@ -14,5 +14,6 @@ namespace MVCSocialMedia.Tests.PostTests
 {
     public class PostTests
     {
+
     }
 }
