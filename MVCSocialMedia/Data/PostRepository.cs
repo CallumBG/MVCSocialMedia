@@ -21,7 +21,7 @@ namespace MVCSocialMedia.Data
         }
 
         //Show one post
-        public async Task<Post> GetPostByID(int? id)
+        public async Task<Post> GetByIdAsync(int? id)
         {
             //return _context.Posts.Find(postID.ToString());
             return await _context.Posts.FirstOrDefaultAsync(m => m.Id == id);

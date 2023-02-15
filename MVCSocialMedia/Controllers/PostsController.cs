@@ -36,7 +36,7 @@ namespace MVCSocialMedia.Controllers
                         Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
         }
 
-        // GET: Posts
+        // GET: Posts in admin view
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AllPostsBaseView()
         {
@@ -55,14 +55,15 @@ namespace MVCSocialMedia.Controllers
             }
 
             //var post = _context.Posts.FindByIDAsync(id);
-            var post = _postRepository.GetPostByID(id);
+            //var post = _postRepository.GetByIdAsync(id);
+            var post = _postRepository.GetByIdAsync(id);
 
             if (post == null)
             {
                 return NotFound();
             }
 
-            return View(post);
+            return View("Details", post);
         }
 
         // GET: Posts/Create
@@ -117,7 +118,7 @@ namespace MVCSocialMedia.Controllers
 
             if (!ModelState.IsValid)
             {
-                return View();
+                return View("");
             }
             byte[] PostImageAsByteArray = null;
             if (file != null)
@@ -168,7 +169,7 @@ namespace MVCSocialMedia.Controllers
                 return NotFound();
             }
 
-            var post = await _postRepository.GetPostByID(id);
+            var post = await _postRepository.GetByIdAsync(id);
             if (post == null)
             {
                 return NotFound();
@@ -187,7 +188,7 @@ namespace MVCSocialMedia.Controllers
             request.Username = User.Identity.Name;
 
             //var post = await _context.Posts.FindAsync(request.Id);
-            var post = await _postRepository.GetPostByID(request.Id);
+            var post = await _postRepository.GetByIdAsync(request.Id);
 
             if (ModelState.IsValid)
             {
@@ -256,7 +257,7 @@ namespace MVCSocialMedia.Controllers
                 return NotFound();
             }
 
-            var post = await _postRepository.GetPostByID(id);
+            var post = await _postRepository.GetByIdAsync(id);
 
             if (post == null)
             {
@@ -286,11 +287,12 @@ namespace MVCSocialMedia.Controllers
             return RedirectToAction(nameof(Index));
             */
 
+
             if (_postRepository == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
             }
-            var post = await _postRepository.GetPostByID(id);
+            var post = await _postRepository.GetByIdAsync(id);
             if (post != null)
             {
                 _postRepository.DeletePost(post);

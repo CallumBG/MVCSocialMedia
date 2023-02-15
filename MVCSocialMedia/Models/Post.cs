@@ -16,6 +16,11 @@ namespace MVCSocialMedia.Models
         public string OpinionText { get; set; }
         public byte[]? PostImageAsByteArray { get; set; }
 
+        public Post()
+        {
+
+        }
+
         public Post(string title, string username, string opinionText, byte[] postImageAsByteArray)
         {
             Title = title;

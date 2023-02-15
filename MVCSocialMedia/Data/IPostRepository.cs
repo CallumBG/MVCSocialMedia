@@ -5,7 +5,7 @@ namespace MVCSocialMedia.Data
     public interface IPostRepository
     {
         IEnumerable<Post> GetPosts();
-        Task<Post> GetPostByID(int? id);
+        Task<Post> GetByIdAsync(int? id);
         void InsertPost(Post post);
         void DeletePost(Post post);
         void UpdatePost(Post post);

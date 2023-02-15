@@ -12,5 +12,17 @@ namespace MVCSocialMedia.Services
         [Required]
         public string OpinionText { get; set; }
         public IFormFile? File { get; set; }
+
+        public CreatePostRequest(string title, string username, string text)
+        {
+            this.Title = title;
+            this.Username = username;
+            this.OpinionText = text;
+        }
+
+        public CreatePostRequest()
+        {
+
+        }
     }
 }
