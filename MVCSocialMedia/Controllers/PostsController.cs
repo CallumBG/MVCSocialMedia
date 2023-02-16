@@ -260,7 +260,7 @@ namespace MVCSocialMedia.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedrectToAction(nameof(Index));
             */
 
 
