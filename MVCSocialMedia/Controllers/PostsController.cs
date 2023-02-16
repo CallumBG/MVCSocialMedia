@@ -80,19 +80,13 @@ namespace MVCSocialMedia.Controllers
             return _postRepository != null ?
                 View("Index", _postRepository.ViewSpecificUserPosts(User.Identity.Name)) :
                 Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
-            /*return _context.posts != null ?
-                        View("Index", await _context.Posts.Where(x => x.Username.Equals(User.Identity.Name)).ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
-            */
+            
         }
 
         //Post: Posts/ShowSearchResults
         public async Task<IActionResult> ShowSearchResults(string SearchPhrase)
         {
-            /*return _context.Posts != null ?
-                          View("Index", await _context.Posts.Where(j => j.Title.Contains(SearchPhrase)).ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Posts'  is null.")
-            */
+           
 
             return _postRepository != null ?
                           View("Index", _postRepository.GetSearchResults(SearchPhrase)) :
@@ -151,18 +145,6 @@ namespace MVCSocialMedia.Controllers
         [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
-            /*if (id == null || _context.Posts == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Posts.FindAsync(id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-            return View(post);
-            */
 
             if (id == null || _postRepository == null)
             {
