@@ -30,7 +30,6 @@ namespace MVCSocialMedia.Controllers
         public async Task<IActionResult> Index()
         {
 
-            //Attempt with postRepository
             return _postRepository != null ?
                         View( _postRepository.GetPosts()) :
                         Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
@@ -54,8 +53,6 @@ namespace MVCSocialMedia.Controllers
                 return NotFound();
             }
 
-            //var post = _context.Posts.FindByIDAsync(id);
-            //var post = _postRepository.GetByIdAsync(id);
             var post = _postRepository.GetByIdAsync(id);
 
             if (post == null)
@@ -169,7 +166,6 @@ namespace MVCSocialMedia.Controllers
         {
             request.Username = User.Identity.Name;
 
-            //var post = await _context.Posts.FindAsync(request.Id);
             var post = await _postRepository.GetByIdAsync(request.Id);
 
             if (ModelState.IsValid)
@@ -195,8 +191,6 @@ namespace MVCSocialMedia.Controllers
 
                 try
                 {
-                    //_context.Update(post);
-                    //await _context.SaveChangesAsync();
                     _postRepository.UpdatePost(post);
                 }
                 catch (DbUpdateConcurrencyException)
