@@ -213,20 +213,6 @@ namespace MVCSocialMedia.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
-            /*if (id == null || _context.Posts == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Posts
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            return View(post);
-            */
 
             if (id == null || _postRepository == null)
             {
@@ -249,19 +235,7 @@ namespace MVCSocialMedia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            /*if (_context.Posts == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
-            }
-            var post = await _context.Posts.FindAsync(id);
-            if (post != null)
-            {
-                _context.Posts.Remove(post);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-            */
+            
 
 
             if (_postRepository == null)
