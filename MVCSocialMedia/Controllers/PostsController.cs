@@ -213,20 +213,6 @@ namespace MVCSocialMedia.Controllers
         [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
-            /*if (id == null || _context.Posts == null)
-            {
-                return NotFound();
-            }
-
-            var post = await _context.Posts
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (post == null)
-            {
-                return NotFound();
-            }
-
-            return View(post);
-            */
 
             if (id == null || _postRepository == null)
             {
