@@ -235,19 +235,6 @@ namespace MVCSocialMedia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            /*if (_context.Posts == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
-            }
-            var post = await _context.Posts.FindAsync(id);
-            if (post != null)
-            {
-                _context.Posts.Remove(post);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedrectToAction(nameof(Index));
-            */
 
 
             if (_postRepository == null)
