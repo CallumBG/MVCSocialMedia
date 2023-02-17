@@ -235,7 +235,7 @@ namespace MVCSocialMedia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-
+            //TestCommentToMerge
 
             if (_postRepository == null)
             {
