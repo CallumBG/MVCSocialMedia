@@ -14,6 +14,7 @@ using MVCSocialMedia.Services;
 
 namespace MVCSocialMedia.Controllers
 {
+    //TestMergeComment
     public class PostsController : Controller
     {
         private readonly IUploadedFileChecker _uploadedFileChecker;
