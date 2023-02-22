@@ -25,6 +25,7 @@ namespace MVCSocialMediaTests.IntegrationTests
         [InlineData("/Posts/Edit")]
         [InlineData("/Posts/Index")]
         [InlineData("/Posts/ShowSearchForm")]
+        [InlineData("/Posts/AllPostsBaseView")]
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange
