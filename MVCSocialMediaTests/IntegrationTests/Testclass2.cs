@@ -16,6 +16,7 @@ namespace MVCSocialMediaTests.IntegrationTests
         {
             builder.ConfigureServices(services =>
             {
+                //TestComment
                 var dbContextDescriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
                         typeof(DbContextOptions<ApplicationDbContext>));
