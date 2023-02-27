@@ -28,7 +28,7 @@ namespace MVCSocialMedia.Data
         }
 
         //AddPost
-        public async void InsertPost(Post post)
+        public async Task InsertPost(Post post)
         {
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
@@ -48,14 +48,14 @@ namespace MVCSocialMedia.Data
         }
 
 
-        public async void DeletePost(Post post)
+        public async Task DeletePost(Post post)
         {
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
         }
 
         //EditPost
-        public async void UpdatePost(Post post)
+        public async Task UpdatePost(Post post)
         {
             _context.Update(post);
             await _context.SaveChangesAsync();

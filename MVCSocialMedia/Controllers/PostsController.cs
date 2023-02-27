@@ -134,7 +134,7 @@ namespace MVCSocialMedia.Controllers
 
 
 
-            _postRepository.InsertPost(newPost);
+            await _postRepository.InsertPost(newPost);
             return RedirectToAction(nameof(Index));
         }
 
@@ -191,7 +191,7 @@ namespace MVCSocialMedia.Controllers
 
                 try
                 {
-                    _postRepository.UpdatePost(post);
+                    await _postRepository.UpdatePost(post);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -243,7 +243,7 @@ namespace MVCSocialMedia.Controllers
             var post = await _postRepository.GetByIdAsync(id);
             if (post != null)
             {
-                _postRepository.DeletePost(post);
+                await _postRepository.DeletePost(post);
             }
 
             return RedirectToAction(nameof(Index));

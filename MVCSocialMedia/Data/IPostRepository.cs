@@ -6,9 +6,9 @@ namespace MVCSocialMedia.Data
     {
         IEnumerable<Post> GetPosts();
         Task<Post> GetByIdAsync(int? id);
-        void InsertPost(Post post);
-        void DeletePost(Post post);
-        void UpdatePost(Post post);
+        Task InsertPost(Post post);
+        Task DeletePost(Post post);
+        Task UpdatePost(Post post);
 
         bool DoesPostExist(int id);
 
