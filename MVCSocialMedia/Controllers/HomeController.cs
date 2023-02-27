@@ -20,9 +20,18 @@ namespace MVCSocialMedia.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return _context.Posts != null ?
+            if(User.Identity.Name == null)
+            {
+                return _context.Posts != null ?
                           View(await _context.Posts.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
+            }
+            else
+            {
+                return _context.Posts != null ?
+                          View("~/Views/Posts/Index.cshtml", await _context.Posts.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.Posts'  is null.");
+            }
         }
 
         public IActionResult Privacy()
