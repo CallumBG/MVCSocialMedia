@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/MVCSocialMedia.styles.css" asp-append-version="true" />
 </head>
 <body class="bg-secondary">
-    <header>
+    <header class="fixed-top">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fs-4">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Social Media</a>
@@ -67,8 +67,8 @@
             </div>
         </nav>
     </header>
-    <div class="container" >
-        <main role="main" class="pb-3">
+    <div class="container pt-5" >
+        <main role="main" class="pb-3 pt-5">
             @RenderBody()
         </main>
     </div>
