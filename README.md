@@ -16,9 +16,18 @@ Uses XUnit for thorough unit tests for controller and service actions.
 
 Project Demo:
 
-*video of administrator view*
+Here is the standard view of a user, has the ability to view, search for and create any posts as necessary however can only edit and delete their own posts.
 
-*video of scrolling through posts and creating post*
+
+https://user-images.githubusercontent.com/67014866/221830630-a187d440-8cac-4859-b2aa-799386064280.mp4
+
+--------------------------------------------------------------------------------------------------
+
+Here is the admin view, similar however with added functionality of being able to view all roles/users and posts. Also this role can edit and delete any post on the site.
+
+https://user-images.githubusercontent.com/67014866/221831511-aab838ad-c46e-4536-a516-99ea9d3995dd.mp4
+
+
 
 
 
