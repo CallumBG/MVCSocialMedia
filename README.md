@@ -21,6 +21,7 @@ Here is the standard view of a user, has the ability to view, search for and cre
 
 https://user-images.githubusercontent.com/67014866/221830630-a187d440-8cac-4859-b2aa-799386064280.mp4
 
+--------------------------------------------------------------------------------------------------
 
 Here is the admin view, similar however with added functionality of being able to view all roles/users and posts. Also this role can edit and delete any post on the site.
 
