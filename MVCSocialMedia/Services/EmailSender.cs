@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using SendGrid.Helpers.Mail;
 using SendGrid;
-using Microsoft.Azure.AppConfiguration.AspNetCore;
 
 namespace MVCSocialMedia.Services
 {
