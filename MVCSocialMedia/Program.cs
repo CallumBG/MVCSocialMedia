@@ -17,6 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
+    options.User.RequireUniqueEmail = true;
     options.SignIn.RequireConfirmedAccount = true;
     options.Tokens.ProviderMap.Add("CustomEmailConfirmation",
         new TokenProviderDescriptor(
@@ -95,7 +96,6 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseAzureAppConfiguration();
 
 app.UseRouting();
 

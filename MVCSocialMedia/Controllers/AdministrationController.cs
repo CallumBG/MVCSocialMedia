@@ -8,7 +8,7 @@ using MVCSocialMedia.Services;
 
 namespace MVCSocialMedia.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdministrationController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -211,13 +211,22 @@ namespace MVCSocialMedia.Controllers
 
             };
 
-            foreach(var user in _userManager.Users)
+            if(role.Name == null)
+            {
+                ViewBag.ErrorMessage = $"Role name not found";
+            }
+
+
+
+            //Issue!
+            foreach(var user in _userManager.Users.ToList())
             {
                 if(await _userManager.IsInRoleAsync(user, role.Name))
                 {
                     model.Users.Add(user.UserName);
                 }
             }
+            
 
             return View(model);
         }
@@ -264,7 +273,7 @@ namespace MVCSocialMedia.Controllers
 
             var model = new List<UserRoleViewModel>();
 
-            foreach(var user in _userManager.Users)
+            foreach(var user in _userManager.Users.ToList())
             {
                 var userRoleViewModel = new UserRoleViewModel
                 {
