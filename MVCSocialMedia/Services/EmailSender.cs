@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using SendGrid.Helpers.Mail;
 using SendGrid;
+using Microsoft.Azure.AppConfiguration.AspNetCore;
 
 namespace MVCSocialMedia.Services
 {
@@ -20,11 +21,11 @@ namespace MVCSocialMedia.Services
 
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
-            if (string.IsNullOrEmpty(Options.SendGridKey))
+            if (string.IsNullOrEmpty(Options.ApiKey))
             {
                 throw new Exception("Null SendGridKey");
             }
-            await Execute(Options.SendGridKey, subject, message, toEmail);
+            await Execute(Options.ApiKey, subject, message, toEmail);
         }
 
         public async Task Execute(string apiKey, string subject, string message, string toEmail)
