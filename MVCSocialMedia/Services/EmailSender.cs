@@ -8,23 +8,23 @@ namespace MVCSocialMedia.Services
     public class EmailSender : IEmailSender
     {
         private readonly ILogger _logger;
+        public ConfigSettings Settings { get; } //Set with Secret Manager.
 
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor,
+        public EmailSender(IOptions<ConfigSettings> optionsAccessor,
                            ILogger<EmailSender> logger)
         {
-            Options = optionsAccessor.Value;
+            Settings = optionsAccessor.Value;
             _logger = logger;
         }
 
-        public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
 
         public async Task SendEmailAsync(string toEmail, string subject, string message)
         {
-            if (string.IsNullOrEmpty(Options.ApiKey))
+            if (string.IsNullOrEmpty(Settings.ApiKey))
             {
                 throw new Exception("Null SendGridKey");
             }
-            await Execute(Options.ApiKey, subject, message, toEmail);
+            await Execute(Settings.ApiKey, subject, message, toEmail);
         }
 
         public async Task Execute(string apiKey, string subject, string message, string toEmail)
