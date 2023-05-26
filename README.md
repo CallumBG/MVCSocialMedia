@@ -13,6 +13,8 @@ Includes user roles including an administrator role that can manage roles,users 
 
 Uses XUnit for thorough unit tests for controller and service actions.
 
+Here is the link to the site: https://mvcsocialmedia20230522135049.azurewebsites.net/Posts 
+Feel free to sign up and test it out! There is also a demo below to see all the features without signing up!
 
 Project Demo:
 
